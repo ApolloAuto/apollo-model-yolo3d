@@ -1,12 +1,6 @@
 <div align="center">
 
 # YOLO3D: 3D Object Detection with YOLO
-
-## Demo
-<div align="center">
-
-![demo](./docs/assets/demo.gif)
-
 </div>
 
 ## Introduction
