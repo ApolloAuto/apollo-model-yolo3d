@@ -1,0 +1,32 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /datamodule: kitti_datamodule.yaml
+  - override /model: regressor.yaml
+  - override /callbacks: default.yaml
+  - override /logger: wandb.yaml
+  - override /trainer: dgx.yaml
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+seed: 42069
+
+# name of the run determines folder name in logs
+name: "new_network"
+
+datamodule:
+  train_sets: ${paths.data_dir}/ImageSets/train.txt
+  val_sets: ${paths.data_dir}/ImageSets/val.txt
+  test_sets: ${paths.data_dir}/ImageSets/test.txt
+
+trainer:
+  min_epochs: 1
+  max_epochs: 200
+  # limit_train_batches: 1.0
+  # limit_val_batches: 1.0
+  gpus: [0]
+  strategy: ddp

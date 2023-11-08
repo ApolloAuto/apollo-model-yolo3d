@@ -1,0 +1,57 @@
+# @package _global_
+
+# specify here default training configuration
+defaults:
+  - _self_
+  - detector: yolov5.yaml
+  - model: regressor.yaml
+  - augmentation: inference_preprocessing.yaml
+
+  # debugging config (enable through command line, e.g. `python train.py debug=default)
+  - debug: null
+
+  # enable color logging
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+
+# run name
+name: evaluate
+
+# directory
+root: ${hydra:runtime.cwd}
+
+# predictions/output directory
+# pred_dir: ${root}/${hydra:run.dir}/${name}
+
+# calib_file
+calib_file: ${root}/assets/global_calib.txt
+
+# regressor weights
+regressor_weights: ${root}/weights/regressor_resnet18.pt
+
+# validation images directory
+val_images_path: ${root}/data/KITTI/images_2
+
+# validation sets directory
+val_sets: ${root}/data/KITTI/ImageSets/val.txt
+
+# class to evaluated
+classes: 6
+
+# class_to_name = {
+      # 0: 'Car',
+      # 1: 'Cyclist',
+      # 2: 'Truck',
+      # 3: 'Van',
+      # 4: 'Pedestrian',
+      # 5: 'Tram',
+# }
+
+# gt label path
+gt_dir: ${root}/data/KITTI/label_2
+
+# dt label path
+pred_dir: ${root}/data/KITTI/result
+
+# device to inference
+device: 'cuda:0'
