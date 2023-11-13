@@ -99,10 +99,10 @@ def format_img(img, box_2d):
     crop = img[point_list1[1]:point_list2[1]+1, point_list1[0]:point_list2[0]+1]
     
     try: 
-        cv2.imwrite('./eval_kitti/crop/img.jpg', img)
+        cv2.imwrite('./tmp/img.jpg', img)
 
         crop = cv2.resize(crop, (224, 224), interpolation=cv2.INTER_CUBIC)
-        cv2.imwrite('./eval_kitti/crop/demo.jpg', crop)
+        cv2.imwrite('./tmp/demo.jpg', crop)
 
     except cv2.error:
         print("pt1 is ", pt1, " pt2 is ", pt2)
@@ -379,7 +379,6 @@ def inference_image(config: DictConfig):
                                 # ,dynamic_axes=dynamic_axes
                                 )
                     print("Please check onnx model in ", onnx_model_save_path)
-                # conda install -c conda-forge onnx
                 
                 import onnx
                 onnx_model = onnx.load(onnx_model_save_path)
@@ -408,7 +407,7 @@ def inference_image(config: DictConfig):
             output_line.append(1.0)
             output_line = " ".join([str(i) for i in output_line]) + "\n"
 
-            # write results
+            # save results
             if config.get("save_txt"):
                 with open(f"{config.get('output_dir')}/{img_name}.txt", "a") as f:
                     f.write(output_line)
